@@ -1,0 +1,1193 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Taskora | Smart Task Manager</title>
+
+    <meta name="description"
+        content="Taskora is a smart client-side task manager with CRUD operations, local storage, advanced filtering, analytics and productivity insights.">
+
+    <meta name="keywords"
+        content="Taskora, To-Do List, Task Manager, JavaScript, CRUD, Local Storage, Productivity">
+
+    <meta name="author" content="Riddhi Singhdeo">
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <!-- ================================
+         BACKGROUND EFFECTS
+    ================================= -->
+
+    <div class="background-glow glow-one"></div>
+    <div class="background-glow glow-two"></div>
+    <div class="background-glow glow-three"></div>
+
+
+    <!-- ================================
+         MAIN CONTAINER
+    ================================= -->
+
+    <div class="app-container">
+
+        <!-- ================================
+             HEADER
+        ================================= -->
+
+        <header class="app-header">
+
+            <div class="brand">
+
+                <div class="brand-icon" aria-hidden="true">
+                    ✓
+                </div>
+
+                <div class="brand-text">
+                    <h1>Taskora</h1>
+                    <span>Smart Task Manager</span>
+                </div>
+
+            </div>
+
+
+            <button
+                type="button"
+                id="themeToggle"
+                class="theme-toggle"
+                aria-label="Toggle color theme">
+
+                <span id="themeIcon">☾</span>
+                <span id="themeText">Dark</span>
+
+            </button>
+
+        </header>
+
+
+        <!-- ================================
+             HERO
+        ================================= -->
+
+        <section class="hero-section">
+
+            <div class="hero-content">
+
+                <span class="hero-badge">
+                    ✦ PRODUCTIVITY, REIMAGINED
+                </span>
+
+                <h2>
+                    Plan it.
+                    <span>Track it.</span>
+                    Crush it.
+                </h2>
+
+                <p>
+                    Organize your tasks, stay focused and turn your
+                    daily goals into progress.
+                </p>
+
+            </div>
+
+            <div class="hero-date">
+
+                <span>Today</span>
+
+                <strong id="currentDate">
+                    Loading...
+                </strong>
+
+            </div>
+
+        </section>
+
+
+        <!-- ================================
+             QUICK STATS
+        ================================= -->
+
+        <section class="stats-grid" aria-label="Task statistics">
+
+            <article class="stat-card">
+
+                <div class="stat-icon total-icon">
+                    ☷
+                </div>
+
+                <div>
+                    <span class="stat-label">Total Tasks</span>
+                    <strong id="totalTasks">0</strong>
+                </div>
+
+            </article>
+
+
+            <article class="stat-card">
+
+                <div class="stat-icon active-icon">
+                    ◉
+                </div>
+
+                <div>
+                    <span class="stat-label">Active</span>
+                    <strong id="activeTasks">0</strong>
+                </div>
+
+            </article>
+
+
+            <article class="stat-card">
+
+                <div class="stat-icon completed-icon">
+                    ✓
+                </div>
+
+                <div>
+                    <span class="stat-label">Completed</span>
+                    <strong id="completedTasks">0</strong>
+                </div>
+
+            </article>
+
+
+            <article class="stat-card">
+
+                <div class="stat-icon progress-icon">
+                    ↗
+                </div>
+
+                <div>
+                    <span class="stat-label">Progress</span>
+                    <strong id="progressPercentage">0%</strong>
+                </div>
+
+            </article>
+
+        </section>
+
+
+        <!-- ================================
+             PRODUCTIVITY DASHBOARD
+        ================================= -->
+
+        <section class="productivity-card">
+
+            <div class="section-heading">
+
+                <div>
+                    <span class="section-eyebrow">
+                        PRODUCTIVITY
+                    </span>
+
+                    <h2>Daily Progress</h2>
+                </div>
+
+                <div class="productivity-score">
+                    <strong id="productivityScore">0</strong>
+                    <span>/ 100</span>
+                </div>
+
+            </div>
+
+
+            <div class="progress-track">
+
+                <div
+                    id="progressBar"
+                    class="progress-fill"
+                    style="width: 0%;">
+                </div>
+
+            </div>
+
+
+            <p class="progress-message" id="progressMessage">
+                Start completing tasks to build your momentum.
+            </p>
+
+        </section>
+
+
+        <!-- ================================
+             ADD TASK
+        ================================= -->
+
+        <section class="add-task-section">
+
+            <div class="section-heading">
+
+                <div>
+                    <span class="section-eyebrow">
+                        NEW TASK
+                    </span>
+
+                    <h2>Add something to your list</h2>
+                </div>
+
+            </div>
+
+
+            <form id="taskForm" class="task-form">
+
+                <div class="form-group task-title-group">
+
+                    <label for="taskInput">
+                        Task
+                    </label>
+
+                    <input
+                        type="text"
+                        id="taskInput"
+                        name="task"
+                        placeholder="What needs to be done?"
+                        autocomplete="off"
+                        maxlength="120"
+                        required>
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="categorySelect">
+                        Category
+                    </label>
+
+                    <select id="categorySelect" name="category">
+
+                        <option value="personal">
+                            Personal
+                        </option>
+
+                        <option value="work">
+                            Work
+                        </option>
+
+                        <option value="study">
+                            Study
+                        </option>
+
+                        <option value="health">
+                            Health
+                        </option>
+
+                        <option value="shopping">
+                            Shopping
+                        </option>
+
+                        <option value="other">
+                            Other
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="prioritySelect">
+                        Priority
+                    </label>
+
+                    <select id="prioritySelect" name="priority">
+
+                        <option value="low">
+                            Low
+                        </option>
+
+                        <option value="medium" selected>
+                            Medium
+                        </option>
+
+                        <option value="high">
+                            High
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="dueDateInput">
+                        Due date
+                    </label>
+
+                    <input
+                        type="date"
+                        id="dueDateInput"
+                        name="dueDate">
+
+                </div>
+
+
+                <button
+                    type="submit"
+                    class="primary-button add-task-button">
+
+                    <span>+</span>
+                    Add Task
+
+                </button>
+
+            </form>
+
+        </section>
+
+
+        <!-- ================================
+             TASK MANAGEMENT
+        ================================= -->
+
+        <section class="tasks-section">
+
+            <div class="section-heading task-section-heading">
+
+                <div>
+                    <span class="section-eyebrow">
+                        YOUR TASKS
+                    </span>
+
+                    <h2>Stay on top of everything</h2>
+                </div>
+
+                <button
+                    type="button"
+                    id="clearCompleted"
+                    class="text-button">
+
+                    Clear completed
+
+                </button>
+
+            </div>
+
+
+            <!-- MAIN FILTERS -->
+
+            <div class="task-toolbar">
+
+                <div
+                    class="filter-group"
+                    role="group"
+                    aria-label="Task filters">
+
+                    <button
+                        type="button"
+                        class="filter-button active"
+                        data-filter="all">
+
+                        All
+                        <span id="allCount">0</span>
+
+                    </button>
+
+
+                    <button
+                        type="button"
+                        class="filter-button"
+                        data-filter="today">
+
+                        Today
+                        <span id="todayCount">0</span>
+
+                    </button>
+
+
+                    <button
+                        type="button"
+                        class="filter-button"
+                        data-filter="active">
+
+                        Active
+                        <span id="activeCount">0</span>
+
+                    </button>
+
+
+                    <button
+                        type="button"
+                        class="filter-button"
+                        data-filter="completed">
+
+                        Completed
+                        <span id="completedCount">0</span>
+
+                    </button>
+
+                </div>
+
+
+                <!-- SEARCH -->
+
+                <div class="search-wrapper">
+
+                    <label
+                        for="searchInput"
+                        class="sr-only">
+
+                        Search tasks
+
+                    </label>
+
+                    <span class="search-icon" aria-hidden="true">
+                        ⌕
+                    </span>
+
+                    <input
+                        type="search"
+                        id="searchInput"
+                        placeholder="Search tasks..."
+                        autocomplete="off">
+
+                </div>
+
+            </div>
+
+
+            <!-- CATEGORY FILTERS -->
+
+            <div
+                class="category-filters"
+                role="group"
+                aria-label="Category filters">
+
+                <button
+                    type="button"
+                    class="category-button active"
+                    data-category="all">
+
+                    All Categories
+
+                </button>
+
+
+                <button
+                    type="button"
+                    class="category-button"
+                    data-category="personal">
+
+                    Personal
+
+                </button>
+
+
+                <button
+                    type="button"
+                    class="category-button"
+                    data-category="work">
+
+                    Work
+
+                </button>
+
+
+                <button
+                    type="button"
+                    class="category-button"
+                    data-category="study">
+
+                    Study
+
+                </button>
+
+
+                <button
+                    type="button"
+                    class="category-button"
+                    data-category="health">
+
+                    Health
+
+                </button>
+
+
+                <button
+                    type="button"
+                    class="category-button"
+                    data-category="shopping">
+
+                    Shopping
+
+                </button>
+
+
+                <button
+                    type="button"
+                    class="category-button"
+                    data-category="other">
+
+                    Other
+
+                </button>
+
+            </div>
+
+
+            <!-- TASK LIST -->
+
+            <div
+                id="taskList"
+                class="task-list"
+                aria-live="polite">
+            </div>
+
+
+            <!-- EMPTY STATE -->
+
+            <div
+                id="emptyState"
+                class="empty-state">
+
+                <div class="empty-icon">
+                    ✦
+                </div>
+
+                <h3>No tasks here yet</h3>
+
+                <p>
+                    Add a task above and start making progress.
+                </p>
+
+            </div>
+
+        </section>
+
+
+        <!-- ================================
+             ANALYTICS
+        ================================= -->
+
+        <section class="analytics-section">
+
+            <div class="section-heading">
+
+                <div>
+                    <span class="section-eyebrow">
+                        INSIGHTS
+                    </span>
+
+                    <h2>Productivity Analytics</h2>
+                </div>
+
+            </div>
+
+
+            <!-- ANALYTICS SUMMARY -->
+
+            <div class="analytics-summary-grid">
+
+                <article class="analytics-card">
+
+                    <div class="analytics-card-top">
+
+                        <div>
+                            <span>Completion Rate</span>
+                            <strong id="analyticsCompletionRate">
+                                0%
+                            </strong>
+                        </div>
+
+                        <div class="analytics-symbol">
+                            ✓
+                        </div>
+
+                    </div>
+
+                    <div class="analytics-bar">
+
+                        <div
+                            id="completionAnalyticsBar"
+                            class="analytics-bar-fill"
+                            style="width: 0%;">
+                        </div>
+
+                    </div>
+
+                    <p id="completionAnalyticsText">
+                        No completed tasks yet.
+                    </p>
+
+                </article>
+
+
+                <article class="analytics-card">
+
+                    <div class="analytics-card-top">
+
+                        <div>
+                            <span>Overdue</span>
+                            <strong id="analyticsOverdue">
+                                0
+                            </strong>
+                        </div>
+
+                        <div class="analytics-symbol">
+                            !
+                        </div>
+
+                    </div>
+
+                    <p id="overdueAnalyticsText">
+                        You're all caught up.
+                    </p>
+
+                </article>
+
+
+                <article class="analytics-card">
+
+                    <div class="analytics-card-top">
+
+                        <div>
+                            <span>Due Today</span>
+                            <strong id="analyticsToday">
+                                0
+                            </strong>
+                        </div>
+
+                        <div class="analytics-symbol">
+                            ◷
+                        </div>
+
+                    </div>
+
+                    <p id="todayAnalyticsText">
+                        Nothing due today.
+                    </p>
+
+                </article>
+
+
+                <article class="analytics-card">
+
+                    <div class="analytics-card-top">
+
+                        <div>
+                            <span>High Priority</span>
+                            <strong id="analyticsHighPriority">
+                                0
+                            </strong>
+                        </div>
+
+                        <div class="analytics-symbol">
+                            ⚡
+                        </div>
+
+                    </div>
+
+                    <p id="priorityAnalyticsText">
+                        No high-priority active tasks.
+                    </p>
+
+                </article>
+
+            </div>
+
+
+            <!-- ANALYTICS DETAILS -->
+
+            <div class="analytics-details-grid">
+
+                <!-- PRIORITY DISTRIBUTION -->
+
+                <article class="analytics-panel">
+
+                    <div class="panel-heading">
+
+                        <div>
+                            <span class="panel-eyebrow">
+                                PRIORITY
+                            </span>
+
+                            <h3>Task Distribution</h3>
+                        </div>
+
+                    </div>
+
+
+                    <div class="distribution-list">
+
+                        <div class="distribution-item">
+
+                            <div class="distribution-label">
+                                <span class="priority-dot high"></span>
+                                <span>High</span>
+                                <strong id="highPriorityCount">0</strong>
+                            </div>
+
+                            <div class="distribution-track">
+
+                                <div
+                                    id="highPriorityBar"
+                                    class="distribution-fill high"
+                                    style="width: 0%;">
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="distribution-item">
+
+                            <div class="distribution-label">
+                                <span class="priority-dot medium"></span>
+                                <span>Medium</span>
+                                <strong id="mediumPriorityCount">0</strong>
+                            </div>
+
+                            <div class="distribution-track">
+
+                                <div
+                                    id="mediumPriorityBar"
+                                    class="distribution-fill medium"
+                                    style="width: 0%;">
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="distribution-item">
+
+                            <div class="distribution-label">
+                                <span class="priority-dot low"></span>
+                                <span>Low</span>
+                                <strong id="lowPriorityCount">0</strong>
+                            </div>
+
+                            <div class="distribution-track">
+
+                                <div
+                                    id="lowPriorityBar"
+                                    class="distribution-fill low"
+                                    style="width: 0%;">
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </article>
+
+
+                <!-- CATEGORY DISTRIBUTION -->
+
+                <article class="analytics-panel">
+
+                    <div class="panel-heading">
+
+                        <div>
+                            <span class="panel-eyebrow">
+                                CATEGORIES
+                            </span>
+
+                            <h3>Where Your Time Goes</h3>
+                        </div>
+
+                    </div>
+
+
+                    <div class="category-analytics">
+
+                        <div class="category-stat">
+                            <span>Personal</span>
+                            <strong id="personalCategoryCount">0</strong>
+                            <div class="mini-track">
+                                <div
+                                    id="personalCategoryBar"
+                                    class="mini-fill"
+                                    style="width: 0%;">
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="category-stat">
+                            <span>Work</span>
+                            <strong id="workCategoryCount">0</strong>
+                            <div class="mini-track">
+                                <div
+                                    id="workCategoryBar"
+                                    class="mini-fill"
+                                    style="width: 0%;">
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="category-stat">
+                            <span>Study</span>
+                            <strong id="studyCategoryCount">0</strong>
+                            <div class="mini-track">
+                                <div
+                                    id="studyCategoryBar"
+                                    class="mini-fill"
+                                    style="width: 0%;">
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="category-stat">
+                            <span>Health</span>
+                            <strong id="healthCategoryCount">0</strong>
+                            <div class="mini-track">
+                                <div
+                                    id="healthCategoryBar"
+                                    class="mini-fill"
+                                    style="width: 0%;">
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="category-stat">
+                            <span>Shopping</span>
+                            <strong id="shoppingCategoryCount">0</strong>
+                            <div class="mini-track">
+                                <div
+                                    id="shoppingCategoryBar"
+                                    class="mini-fill"
+                                    style="width: 0%;">
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="category-stat">
+                            <span>Other</span>
+                            <strong id="otherCategoryCount">0</strong>
+                            <div class="mini-track">
+                                <div
+                                    id="otherCategoryBar"
+                                    class="mini-fill"
+                                    style="width: 0%;">
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </article>
+
+            </div>
+
+
+            <!-- ANALYTICS INSIGHT -->
+
+            <article class="analytics-insight-card">
+
+                <div class="insight-icon">
+                    ✦
+                </div>
+
+                <div>
+
+                    <span class="panel-eyebrow">
+                        PRODUCTIVITY TIP
+                    </span>
+
+                    <h3 id="analyticsInsightTitle">
+                        You're ready to get started.
+                    </h3>
+
+                    <p id="analyticsInsightText">
+                        Add a few tasks and Taskora will generate
+                        useful productivity insights for you.
+                    </p>
+
+                </div>
+
+            </article>
+
+        </section>
+
+
+        <!-- ================================
+             ACHIEVEMENTS
+        ================================= -->
+
+        <section class="achievements-section">
+
+            <div class="section-heading">
+
+                <div>
+                    <span class="section-eyebrow">
+                        MILESTONES
+                    </span>
+
+                    <h2>Your Achievements</h2>
+                </div>
+
+                <div class="achievement-progress-text">
+                    <strong>0</strong> unlocked
+                </div>
+
+            </div>
+
+
+            <div
+                id="achievementProgress"
+                class="achievement-progress">
+
+                <div
+                    class="achievement-progress-fill"
+                    style="width: 0%;">
+                </div>
+
+            </div>
+
+
+            <div
+                id="achievementGrid"
+                class="achievement-grid">
+            </div>
+
+        </section>
+
+
+        <!-- ================================
+             SMART INSIGHTS
+        ================================= -->
+
+        <section class="smart-insights-section">
+
+            <div class="section-heading">
+
+                <div>
+                    <span class="section-eyebrow">
+                        SMART ASSISTANT
+                    </span>
+
+                    <h2>Smart Insights</h2>
+                </div>
+
+            </div>
+
+
+            <div
+                id="smartInsightsList"
+                class="smart-insights-list">
+            </div>
+
+        </section>
+
+
+        <!-- ================================
+             EDIT MODAL
+        ================================= -->
+
+        <div
+            id="editModal"
+            class="modal-overlay"
+            aria-hidden="true">
+
+            <div
+                class="modal"
+                role="dialog"
+                aria-modal="true"
+                aria-labelledby="editModalTitle">
+
+                <div class="modal-header">
+
+                    <div>
+                        <span class="section-eyebrow">
+                            EDIT TASK
+                        </span>
+
+                        <h2 id="editModalTitle">
+                            Update your task
+                        </h2>
+                    </div>
+
+                    <button
+                        type="button"
+                        class="modal-close"
+                        data-close-modal
+                        aria-label="Close edit window">
+
+                        ×
+
+                    </button>
+
+                </div>
+
+
+                <form id="editForm" class="edit-form">
+
+                    <div class="form-group">
+
+                        <label for="editTaskInput">
+                            Task
+                        </label>
+
+                        <input
+                            type="text"
+                            id="editTaskInput"
+                            maxlength="120"
+                            required>
+
+                    </div>
+
+
+                    <div class="edit-form-grid">
+
+                        <div class="form-group">
+
+                            <label for="editCategorySelect">
+                                Category
+                            </label>
+
+                            <select id="editCategorySelect">
+
+                                <option value="personal">
+                                    Personal
+                                </option>
+
+                                <option value="work">
+                                    Work
+                                </option>
+
+                                <option value="study">
+                                    Study
+                                </option>
+
+                                <option value="health">
+                                    Health
+                                </option>
+
+                                <option value="shopping">
+                                    Shopping
+                                </option>
+
+                                <option value="other">
+                                    Other
+                                </option>
+
+                            </select>
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label for="editPrioritySelect">
+                                Priority
+                            </label>
+
+                            <select id="editPrioritySelect">
+
+                                <option value="low">
+                                    Low
+                                </option>
+
+                                <option value="medium">
+                                    Medium
+                                </option>
+
+                                <option value="high">
+                                    High
+                                </option>
+
+                            </select>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="editDueDateInput">
+                            Due date
+                        </label>
+
+                        <input
+                            type="date"
+                            id="editDueDateInput">
+
+                    </div>
+
+
+                    <div class="modal-actions">
+
+                        <button
+                            type="button"
+                            class="secondary-button"
+                            data-close-modal>
+
+                            Cancel
+
+                        </button>
+
+
+                        <button
+                            type="submit"
+                            class="primary-button">
+
+                            Save Changes
+
+                        </button>
+
+                    </div>
+
+                </form>
+
+            </div>
+
+        </div>
+
+
+        <!-- ================================
+             TOAST NOTIFICATIONS
+        ================================= -->
+
+        <div
+            id="toastContainer"
+            class="toast-container"
+            aria-live="polite"
+            aria-atomic="true">
+        </div>
+
+
+        <!-- ================================
+             FOOTER
+        ================================= -->
+
+        <footer class="app-footer">
+
+            <div>
+                <strong>Taskora</strong>
+                <span>Plan it. Track it. Crush it.</span>
+            </div>
+
+            <p>
+                Built with HTML, CSS & JavaScript
+            </p>
+
+        </footer>
+
+    </div>
+
+
+    <!-- ================================
+         JAVASCRIPT
+    ================================= -->
+
+    <script src="script.js"></script>
+
+</body>
+
+</html>
